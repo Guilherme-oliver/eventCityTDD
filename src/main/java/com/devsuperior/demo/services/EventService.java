@@ -1,6 +1,5 @@
 package com.devsuperior.demo.services;
 
-import com.devsuperior.demo.dto.CityDTO;
 import com.devsuperior.demo.dto.EventDTO;
 import com.devsuperior.demo.entities.City;
 import com.devsuperior.demo.entities.Event;
@@ -28,19 +27,19 @@ public class EventService {
         entity.setName(eventDTO.getName());
         entity.setDate(eventDTO.getDate());
         entity.setUrl(eventDTO.getUrl());
-        City city = cityRepository.getReferenceById(entity.getId());
-        city.setId(eventDTO.getId());
+        City city = cityRepository.getReferenceById(eventDTO.getCityId());
+        entity.setCity(city);
     }
 
     @Transactional
-    public EventDTO update(Long id, EventDTO eventDTO) {
+    public EventDTO update(Long id, EventDTO dto) {
         try {
             Event entity = eventRepository.getReferenceById(id);
-            copyDtoToEntity(eventDTO, entity);
+            copyDtoToEntity(dto, entity);
             entity = eventRepository.save(entity);
             return new EventDTO(entity);
         }catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Id not found " + id);
+            throw new  ResourceNotFoundException("Resource not found!");
         }
     }
 }

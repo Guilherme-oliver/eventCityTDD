@@ -60,7 +60,7 @@ public class EventControllerIT {
 
 		long existingId = 1L;
 
-		EventDTO dto = new EventDTO(null, "Expo XP", LocalDate.of(2021, 5, 18), "https://expoxp.com.br", 7L);
+		EventDTO dto = new EventDTO(existingId, "Expo XP", LocalDate.of(2021, 5, 18), "https://expoxp.com.br", 7L);
 		String jsonBody = objectMapper.writeValueAsString(dto);
 		
 		ResultActions result =
