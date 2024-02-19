@@ -40,6 +40,7 @@ public class CityService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
+        City city = cityRepository.getReferenceById(id);
         if (!cityRepository.existsById(id)) {
             throw new ResourceNotFoundException("Resource not found!");
         }
@@ -47,6 +48,9 @@ public class CityService {
             cityRepository.deleteById(id);
         }catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Referential integrity failure!");
+        }
+        if (!city.getEvents().isEmpty()) {
+            throw new BadRequestException("The city has one or more event(s)");
         }
     }
 }
